@@ -1,0 +1,73 @@
+
+{% extends 'products/header.html' %}
+{% block title %} Rate Movie {% endblock %}
+
+
+{% block content %}
+
+{% load widget_tweaks %}
+
+<div class="panel panel-primary" style="margin-top: 20px">
+
+
+<div class="panel panel-heading">
+
+<h3 class="panel-title"> 
+
+Add Rating
+
+</h3>
+
+</div>
+
+
+
+
+<div class="panel panel-body">  
+
+<form action="{% url 'create' %}" method="POST">
+
+    {% csrf_token %}
+
+   {% for field in form %}
+
+  <div class="form-group">
+
+        <div class="col-md-6">
+            <label> {{ field.label_tag }} </label>
+            {% render_field field class="form-control" %}
+		    
+
+		  
+  {% if form.non_field_errors %}
+    <div class="alert alert-danger" role="alert">
+      {% for error in form.non_field_errors %}
+        {{ error }}
+      {% endfor %}
+    </div>
+  {% endif %}
+
+
+
+        </div>
+
+  </div>
+
+
+{% endfor %}
+
+  <div class="form-group">
+
+  	<input type="submit" class="btn btn-success btn-block" value="Add Rating">
+
+  </div>	
+
+
+</form>
+
+</div>
+
+
+
+{% endblock %}
+

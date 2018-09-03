@@ -1,0 +1,295 @@
+{% extends 'products/header.html' %}
+{% block title %} Crawl Website {% endblock %}
+
+
+{% block content %}
+
+
+<div class="panel panel-primary" style="margin-top: 20px">
+
+
+<div class="panel panel-heading">
+
+<h3 class="panel-title"> 
+Welcome to Catalogue Home 
+</h3>
+
+</div>
+
+<div class="panel panel-body">  
+
+
+
+<div class="panel panel-default">
+
+<div class="panel panel-heading">
+    <h3>Fill in the Parameters to Crawl Website</h3>
+</div>
+
+<div class="panel panel-body">
+    
+
+<form id="crawler_form" action="" method="POST">
+
+    {% csrf_token %}
+
+   <div class="form-group">
+
+        <div class="col-md-6">
+            <label>Website Name</label>
+            <input type="text" id="website_name" class="form-control" required />
+        </div>
+
+
+        <div class="col-md-6">
+            <label>Xpath to Major Categories</label>
+            <input type="text" id="major_url" class="form-control" required />
+        </div>
+
+    </div>
+
+    <div class="form-group">
+
+    	<div class="col-md-12">
+            <br>
+		    <label>Relay Links <small class="text-danger">(optional)</small></label>
+		    <input type="text" id="relay_links" class="form-control" />
+    	</div>
+
+    </div>
+
+
+    <div class="form-group">
+
+        <div class="col-md-6">
+            <br>
+            <label>Starting Page Number</label>
+            <input type="text" id="start_page_number" class="form-control" />
+        </div>
+
+
+        <div class="col-md-6">
+            <br>
+            <label>Ending Page Number</label>
+            <input type="text" id="end_page_number" class="form-control" />
+        </div>
+
+    </div>
+
+
+    <div class="form-group">
+
+        <div class="col-md-6">
+            <br>
+            <label>Concatenation Pattern </label>
+            <input type="text" id="pagination_index" class="form-control" />
+        </div>
+
+
+        <div class="col-md-6">
+            <br>
+            <label>Xpath to Products URL</label>
+            <input type="text" id="product_url" class="form-control" required />
+        </div>
+
+    </div>
+
+
+
+
+    <div class="form-group">
+
+        <div class="col-md-6">
+            <br>
+            <label>Xpath to Product Name </label>
+            <input type="text" id="product_name" class="form-control" required />
+        </div>
+
+
+        <div class="col-md-6">
+            <br>
+            <label>Xpath to Product Seller <small class="text-danger">(optional)</small></label>
+            <input type="text" id="product_seller" class="form-control" />
+        </div>
+
+    </div>
+
+
+    <div class="form-group">
+
+        <div class="col-md-12">
+            <br>
+            <label>Product Colors <small class="text-danger">(optional)</small></label>
+            <input type="text" id="product_color" class="form-control" />
+        </div>
+
+    </div>
+
+
+    <div class="form-group">
+
+        <div class="col-md-6">
+            <br>
+            <label>Xpath to Product Current Price </label>
+            <input type="text" id="product_current_price" class="form-control" required />
+        </div>
+
+        <div class="col-md-6">
+            <br>
+            <label>Xpath to Product Old Price </label>
+            <input type="text" id="product_old_price" class="form-control" required />
+        </div>
+
+
+    </div>
+
+
+
+
+    <div class="form-group">
+
+        <div class="col-md-6">
+            <br>
+            <label>Xpath to Product Categories </label>
+            <input type="text" id="product_categories" class="form-control" required />
+        </div>
+
+
+        <div class="col-md-6">
+            <br>
+            <label>Xpath to Products Sizes</label>
+            <input type="text" id="product_sizes" class="form-control" required />
+        </div>
+
+    </div>
+
+
+
+
+    <div class="form-group">
+
+        <div class="col-md-6">
+            <br>
+            <label>Xpath to Percentage Off </label>
+            <input type="text" id="product_percentage_off" class="form-control" required />
+        </div>
+
+
+        <div class="col-md-6">
+            <br>
+            <label>Xpath to Products Images</label>
+            <input type="text" id="product_images" class="form-control" required />
+        </div>
+
+    </div>
+
+    <div class="form-group">
+
+        <div class="col-md-12">
+            <br>
+            <label>Xpath to Product Description</label>
+            <input type="text" id="product_description" class="form-control" required />
+        </div>
+
+    </div>
+
+
+
+
+    <div class="col-md-12">
+    <br>
+    <hr>
+    <input type="submit" name="submit" class="btn btn-block btn-primary" value="Crawl Website" />
+    </div>
+   
+
+</form>
+
+</div>
+
+
+</div>
+
+
+
+</div>
+    
+</div>
+
+
+
+<script type="text/javascript">
+    
+    /*
+    $(document).ready(function(){
+        
+        alert('Document is Ready!!!')
+    })
+    */
+
+
+    $(document).on('submit', '#crawler_form', function(e){
+
+        e.preventDefault();
+        
+
+                
+        swal({
+          title: "Crawler Activated!!!",
+          text: "The Requested Website is Now Crawling - Please Hold On!",
+          icon: "success",
+          button: "Crawling in Progress!",
+        });
+
+
+        $.ajax({
+
+
+            type: 'POST',
+            url: '/crawl/',
+            data:{
+
+                website_name : $('#website_name').val(),
+                major_url : $('#major_url').val(),
+                relay_links : $('#relay_links').val(),
+                start_page_number : $('#start_page_number').val(),
+                end_page_number : $('#end_page_number').val(),
+                pagination_index : $('#pagination_index').val(),
+                product_url : $('#product_url').val(),
+                product_name : $('#product_name').val(),
+                product_seller : $('#product_seller').val(),
+                product_color : $('#product_color').val(),
+                product_current_price :$('#product_current_price').val(),
+                product_old_price :$('#product_old_price').val(),
+                product_categories :$('#product_categories').val(),
+                product_sizes :$('#product_sizes').val(),
+                product_percentage_off :$('#product_percentage_off').val(),
+                product_images :$('#product_images').val(),
+                product_description :$('#product_description').val(),
+                csrfmiddlewaretoken : $('input[name=csrfmiddlewaretoken]').val()
+
+            },
+
+            success:function(){
+
+                //window.location.replace('http://localhost:8000/')               
+
+                swal({
+                  title: "Crawling Completed!!!",
+                  text: "The Website is completely Crawled!",
+                  icon: "success",
+                  button: "Finish",
+                });
+
+
+            },
+
+        });
+
+
+    });
+
+
+</script>
+    
+{% endblock %}

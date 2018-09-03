@@ -1,0 +1,231 @@
+{% extends 'products/header.html' %}
+{% block title %} Search Results {% endblock %}
+
+
+{% block content %}
+
+
+<div class="panel panel-primary" style="margin-top: 20px">
+
+
+<div class="panel panel-heading">
+
+<h3 class="panel-title"> 
+    Search Results Page 
+<!--  
+    <hr>
+    {{ wordids }}
+    <hr>
+    {{ urlids }}
+    <hr>
+    {{ results }}
+    <hr>
+    {{ scores }}
+-->
+
+
+</h3>
+
+</div>
+
+<div class="panel panel-body">  
+
+
+
+<div class="panel panel-default">
+
+<div class="panel panel-heading">
+    <h3>Now Showing Results For {{ search }}</h3>
+</div>
+
+<div class="panel panel-body">
+    
+{% if results == 'Search Not Available' %}
+
+<div class="form-group">
+        <div class="col-md-12">
+    
+            <h3> <a href="#" style="color: red"> No Match Found!!!</a> </h3>
+    
+            <p> Sorry your search word '{{search}}' doesn't match any item on our database, try adjusting your search keyword...</p>
+         </div>
+</div>
+
+{% else %}
+{% for result in results %}
+<div class="form-group">
+        <div class="col-md-12">
+    
+            <h3> <a href="{{result}}" id="{{wordids}}" value="{{urlids}}" type="{{ forloop.counter }}"  class="link" target="_blank"> {{result}} </a> </h3>
+    
+            <p> Find Quality Stock Jeans from our brand of exclusive wears designed just for you...</p>
+         </div>
+</div>
+{% endfor %}
+
+{% endif %}
+
+</div>
+
+
+</div>
+
+
+
+</div>
+    
+</div>
+
+
+
+<script type="text/javascript">
+    
+    
+    $(document).ready(function(){
+
+        
+        var classname = document.getElementsByClassName("link");
+
+        var myFunction = function() {
+
+
+           //e.preventDefault();
+
+           var selectedurl = this.getAttribute("href");
+           
+           var wordids = this.getAttribute("id");
+           
+           var urlids = this.getAttribute("value");
+           
+           strip_wordids = wordids.slice(1, -1);
+
+           strip_urlids = urlids.slice(1, -1);
+
+           arr_wordids = strip_wordids.split(',');
+           
+           arr_urlids = strip_urlids.split(',');
+
+           var selectedurlid = this.getAttribute("type");
+
+           num_selectedurlid = parseInt(selectedurlid) - 1;
+
+           theselectedurlid = arr_urlids[num_selectedurlid].trim()
+
+           str_wordids = arr_wordids.toString();
+
+           str_urlids = arr_urlids.toString();
+
+        $.ajax({
+
+
+            type: 'POST',
+            url: '/train/',
+            data:{
+
+                wordids : str_wordids,
+                urlids : str_urlids,
+                theselectedurlid : theselectedurlid,
+                csrfmiddlewaretoken : $('input[name=csrfmiddlewaretoken]').val()
+
+            },
+
+            success:function(){
+
+                /*
+                swal({
+                  title: "Neural Network Training Completed!!!",
+                  text: "The Website is completely Crawled!",
+                  icon: "success",
+                  button: "Finish",
+                });
+
+                */
+
+            },
+
+        });
+
+
+        };
+
+
+
+        for (var i = 0; i < classname.length; i++) {
+
+        classname[i].addEventListener('click', myFunction, false);
+
+
+
+        }
+
+
+
+
+
+    })
+    
+
+
+    $(document).on('submit', '#crawler_form', function(e){
+
+        e.preventDefault();
+        
+
+                
+        swal({
+          title: "Crawler Activated!!!",
+          text: "The Requested Website is Now Crawling - Please Hold On!",
+          icon: "success",
+          button: "Crawling in Progress!",
+        });
+
+
+        $.ajax({
+
+
+            type: 'POST',
+            url: '/crawl/',
+            data:{
+
+                website_name : $('#website_name').val(),
+                major_url : $('#major_url').val(),
+                relay_links : $('#relay_links').val(),
+                start_page_number : $('#start_page_number').val(),
+                end_page_number : $('#end_page_number').val(),
+                pagination_index : $('#pagination_index').val(),
+                product_url : $('#product_url').val(),
+                product_name : $('#product_name').val(),
+                product_seller : $('#product_seller').val(),
+                product_current_price :$('#product_current_price').val(),
+                product_old_price :$('#product_old_price').val(),
+                product_categories :$('#product_categories').val(),
+                product_sizes :$('#product_sizes').val(),
+                product_percentage_off :$('#product_percentage_off').val(),
+                product_images :$('#product_images').val(),
+                csrfmiddlewaretoken : $('input[name=csrfmiddlewaretoken]').val()
+
+            },
+
+            success:function(){
+
+                //window.location.replace('http://localhost:8000/')               
+
+                swal({
+                  title: "Crawling Completed!!!",
+                  text: "The Website is completely Crawled!",
+                  icon: "success",
+                  button: "Finish",
+                });
+
+
+            },
+
+        });
+
+
+    });
+
+
+</script>
+    
+{% endblock %}

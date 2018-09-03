@@ -1,0 +1,309 @@
+{% extends 'products/header.html' %}
+{% block title %} Products Home {% endblock %}
+
+
+{% block content %}
+
+
+<div class="panel panel-primary" style="margin-top: 20px">
+
+
+<div class="panel panel-heading">
+
+<h3 class="panel-title"> 
+
+Welcome to Catalogue Home 
+<!--
+<span>
+<a class="btn btn-default btn-sm" href="{% url 'crawl' %}"> Crawl the Web </a>
+</span>
+-->
+</h3>
+
+</div>
+
+
+
+
+<div class="panel panel-body">  
+
+{% for p in datum.object_list %}
+
+    <div class="col-xs-12 col-md-12">
+        <!-- First product box start here-->
+        <div class="prod-info-main prod-wrap clearfix">
+            <div class="row">
+                    <div class="col-md-5 col-sm-12 col-xs-12">
+
+
+                        
+                        <div class="product-image"> 
+                           {% load static from staticfiles %}
+  
+                           <ul class="list-inline">
+                                {% for img in p.images_as_list %}
+                                <li>
+                                    <img src="static/products/images/{{img}}" class="img-responsive img-thumbnail rotprod" alt="Product Image" style="width:70px; height: 70px"  />
+                                </li>
+                                {% endfor %}
+
+                            </ul>
+                             
+  
+
+                            <span class="tag2 hot" style="background: forestgreen">
+                                {% if "No Discount Available" in p.product_off %}
+                                    0%
+                                {% else %}
+
+                                {{p.product_off}} 
+                                
+                                {% endif %}
+                                <small>off</small>
+                            </span> 
+
+                        </div>
+
+
+
+
+                    </div>
+                    <div class="col-md-7 col-sm-12 col-xs-12">
+                    <div class="product-deatil">
+                            <h5 class="name">
+                                <a href="{{p.product_url}}" target="_blank" class="link">{{p.product_name}}</a>  
+                                <br>
+                                <br>
+                                <a href="{{product_url}}"  class="text-success" target="_blank">
+                                Seller: {{p.product_seller}}
+                                </a>
+                                <br>
+                                <br>
+                                <p style="color:firebrick">
+                                Color (s): 
+                                
+                                {% if "Not Available in Colors" in p.product_color %}
+                                
+                                  <button class="btn btn-sm btn-default"> <span>Not Available in Colors</span> </button>
+                                
+                                  {% else %}
+                                
+                                {% for color in p.get_color %}
+                                  {% if color == "White" %}
+                                  <button class="btn btn-sm btn-default"> <span>{{color}}</span> </button>
+                                  {% else %}
+                                  <button class="btn btn-sm" style="background-color:{{color}}; color: white"> <span>{{color}}</span> </button>
+                                  {% endif %}
+                                {% endfor %}
+
+                                {% endif %}
+
+                                </p>
+                                 <br>
+                                <a href="{{product_url}}" target="_blank">
+                                     <ul class="list-inline">
+                                    {% for cat in p.category_as_list %}
+                                    <li style="font-size: 8px">{{cat}} >></li> 
+                                    {% endfor %}
+                                    </ul>
+                                </a>                            
+
+                            </h5>
+                            <p class="price-container">
+                              <span>&#8358; {{p.product_current_price}} </span>
+                              <small class="text-danger">
+                             
+                             {% if "No Old Price" in p.product_old_price %}
+                                    
+                                {{p.product_old_price}}
+
+                             {% else %}
+
+                               <strike> &#8358; {{p.product_old_price}} </strike> 
+                                
+                             {% endif %} 
+                             
+
+                              </small>
+                            </p>
+                            <span class="tag1"></span> 
+                    </div>
+                    <div class="description">
+                        <p>
+                           <ul class="list-inline">
+                                    {% if "Not" in p.sizes_as_list %}
+                                         Sizes: <li style="font-size: 12px"> <span class="badge">Not Availble in Sizes</span></li>  
+                                    {% else %}
+                                        Sizes :
+                                        {% for size in p.sizes_as_list %}
+                                        <li style="font-size: 12px"> <span class="badge">{{size}}</span></li> 
+                                        {% endfor %}
+                                    {% endif %}
+                            </ul>
+                        </p>
+                    </div>
+                    <div class="product-info smart-form">
+                        <div class="row">
+                            <div class="col-md-12"> 
+                                <a href="javascript:void(0);" class="btn btn-danger btn-xs btn-cart"><span>Add to cart</span></a>
+                                <a href="javascript:void(0);" class="btn btn-xs btn-info"><span>More info</span></a>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="rating">
+                                  <label> Product Description: </label> <br>
+                                  <hr>
+                                  <p style="line-height: 2em">{{p.product_description}}</p>
+                                  <br>
+                                  <!--
+                                    <label for="stars-rating-5"><i class="fa fa-star text-danger"></i></label>
+                                    <label for="stars-rating-4"><i class="fa fa-star text-danger"></i></label>
+                                    <label for="stars-rating-3"><i class="fa fa-star text-danger"></i></label>
+                                    <label for="stars-rating-2"><i class="fa fa-star text-warning"></i></label>
+                                    <label for="stars-rating-1"><i class="fa fa-star text-warning"></i></label>
+                                  -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end product -->
+    </div>
+
+{% endfor %}
+
+<center>
+
+<nav aria-label="Page navigation">
+  <ul class="pagination">
+     {% if datum.has_previous %}
+              <li><a aria-label="Previous"  href="?page={{ datum.previous_page_number }}"> <span aria-hidden="true">&laquo;</span> Previous</a></li>
+     {% endif %}
+
+     {% for pg in datum.paginator.page_range %}
+      {% if datum.number == pg %}
+          <li class="active"><a href="?page={{ pg }}">{{ pg }}</a></li>
+      {% else %}
+          <li><a href="?page={{ pg }}">{{ pg }}</a></li>
+      {% endif %}
+      {% endfor %}
+      {% if datum.has_next %}
+          <li> <a aria-label="Next" href="?page={{ datum.next_page_number }}">Next  <span aria-hidden="true">&raquo;</span> </a></li>
+      {% endif %}
+  </ul>
+</nav>
+    
+
+<!--
+<div class="pagination">
+
+
+    <ul class="list-inline">
+          {% if datum.has_previous %}
+              <li><a href="?page={{ datum.previous_page_number }}">Previous</a></li>
+          {% endif %}
+          {% for pg in datum.paginator.page_range %}
+              {% if datum.number == pg %}
+                  <li class="active"><a href="?page={{ pg }}">{{ pg }}</a></li>
+              {% else %}
+                  <li><a href="?page={{ pg }}">{{ pg }}</a></li>
+              {% endif %}
+          {% endfor %}
+          {% if datum.has_next %}
+              <li><a href="?page={{ datum.next_page_number }}">Next</a></li>
+          {% endif %}
+      </ul>
+
+</div>
+
+-->
+
+
+</center>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+    
+</div>
+
+
+
+<script type="text/javascript">
+    
+    
+    $(document).ready(function(){
+
+        
+        var classname = document.getElementsByClassName("link");
+
+        var myProductFunction = function() {
+
+
+           //e.preventDefault();
+
+           var item_name = this.getAttribute("href");
+           var item_rating = 5
+           
+           $.ajax({
+            type: 'POST',
+            url: '/create/',
+            data:{
+
+                item_rating : item_rating,
+                item_name : item_name,
+                csrfmiddlewaretoken : $('input[name=csrfmiddlewaretoken]').val()
+
+            },
+
+            success:function(){
+
+                /*
+                swal({
+                  title: "Neural Network Training Completed!!!",
+                  text: "The Website is completely Crawled!",
+                  icon: "success",
+                  button: "Finish",
+                });
+
+                */
+
+            },
+
+        });
+
+
+        };
+
+
+
+        for (var i = 0; i < classname.length; i++) {
+
+        classname[i].addEventListener('click', myProductFunction, false);
+
+
+
+        }
+
+
+
+
+
+    })
+    
+</script>
+    
+{% endblock %}
+
+
+
+
