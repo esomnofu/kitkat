@@ -17,11 +17,10 @@ class searchnet:
 
 	
 	def maketables(self):
-		'''
-		FIRST TWO COLUMNS ADDED TO AUGMENT FOR URL AND WORD TABLE IF NOT ALREADY EXISTING
+		
+		# FIRST TWO COLUMNS ADDED TO AUGMENT FOR URL AND WORD TABLE IF NOT ALREADY EXISTING
 		self.con.execute('create table urllist(url)')
 		self.con.execute('create table wordlist(word)')
-		'''
 		self.con.execute('create table hiddennode(create_key)')
 		self.con.execute('create table wordhidden(fromid,toid,strength)')
 		self.con.execute('create table hiddenurl(fromid,toid,strength)')
