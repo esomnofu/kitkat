@@ -63,17 +63,17 @@ from .recommendations import *
 def index(request):
 
 	#Initialization of the Refresh our Crawler Calculation Index to Reflect Current Status of Ratings on Website Loaded
-	# try:
-	# 	neural_ntwk = searchnet('nn.db')
-	# 	neural_ntwk.maketables()
-	# except:
-	# 	pass
-	neural_ntwk = searchnet('nn.db')
-	neural_ntwk.maketables()
+	try:
+		neural_ntwk = searchnet('nn.db')
+		neural_ntwk.maketables()
+	except:
+		pass
+	# neural_ntwk = searchnet('nn.db')
+	# neural_ntwk.maketables()
 	page_rank = NeuralCrawler('searchindex.db')
 
 	#Calling the Refresh Method
-	page_rank.calculatepagerank()
+	# page_rank.calculatepagerank()
 
 	#Start Process to get Products From Text File
 	#Start Process to get Products From Text File
