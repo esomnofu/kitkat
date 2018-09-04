@@ -80,12 +80,12 @@ WSGI_APPLICATION = 'catalogue.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
+        'ENGINE': 'd4hm3vlp81cn1p',
         'NAME': 'catalogue',
-        'USER': 'root',
-        'PASSWORD': '',
-        'HOST': 'localhost',
-        'PORT': '',
+        'USER': 'cyubtbtnczlwex',
+        'PASSWORD': '0096f1563a8db3f6fd5bbb00f5504142a72184a0e874bb6d9a6ebed7872babdd',
+        'HOST': 'ec2-50-17-194-186.compute-1.amazonaws.com',
+        'PORT': '5432',
     }
 }
 
