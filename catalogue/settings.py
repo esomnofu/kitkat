@@ -28,7 +28,7 @@ SECRET_KEY = 'oq^7+y!d2uj)13h1u_$8#7evk_r*z5_)l!up92_7@o)xtt^zus'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['secure-island-22813.herokuapp.com',' 127.0.0.1','localhost']
+ALLOWED_HOSTS = ['secure-island-22813.herokuapp.com','127.0.0.1','localhost']
 
 
 # Application definition
@@ -80,12 +80,12 @@ WSGI_APPLICATION = 'catalogue.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'd4hm3vlp81cn1p',
+        'ENGINE': 'django.db.backends.mysql',
         'NAME': 'catalogue',
-        'USER': 'cyubtbtnczlwex',
-        'PASSWORD': '0096f1563a8db3f6fd5bbb00f5504142a72184a0e874bb6d9a6ebed7872babdd',
-        'HOST': 'ec2-50-17-194-186.compute-1.amazonaws.com',
-        'PORT': '5432',
+        'USER': 'root',
+        'PASSWORD': '',
+        'HOST': 'localhost',
+        'PORT': '',
     }
 }
 
